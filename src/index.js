@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { render as preactRender, cloneElement as preactCloneElement, h, Component as PreactComponent, options } from 'preact';
 
 const version = '15.1.0'; // trick libraries to think we are react
@@ -263,7 +262,6 @@ function statelessComponentHook(Ctor) {
 
 	Object.defineProperty(Wrapped, COMPONENT_WRAPPER_KEY, { configurable:true, value:true });
 	Wrapped.displayName = Ctor.displayName;
-	Wrapped.propTypes = Ctor.propTypes;
 	Wrapped.defaultProps = Ctor.defaultProps;
 
 	Object.defineProperty(Ctor, COMPONENT_WRAPPER_KEY, { configurable:true, value:Wrapped });
@@ -417,9 +415,6 @@ function createClass(obj) {
 	if (obj.statics) {
 		extend(cl, obj.statics);
 	}
-	if (obj.propTypes) {
-		cl.propTypes = obj.propTypes;
-	}
 	if (obj.defaultProps) {
 		cl.defaultProps = obj.defaultProps;
 	}
@@ -524,13 +519,8 @@ function propsHook(props, context) {
 
 	// add proptype checking
 	if (DEV) {
-		let ctor = typeof this==='function' ? this : this.constructor,
-			propTypes = this.propTypes || ctor.propTypes;
+		let ctor = typeof this==='function' ? this : this.constructor;
 		const displayName = this.displayName || ctor.name;
-
-		if (propTypes) {
-			PropTypes.checkPropTypes(propTypes, props, 'prop', displayName);
-		}
 	}
 }
 
@@ -594,7 +584,6 @@ PureComponent.prototype.shouldComponentUpdate = function(props, state) {
 export {
 	version,
 	DOM,
-	PropTypes,
 	Children,
 	render,
 	createClass,
@@ -615,7 +604,6 @@ export {
 export default {
 	version,
 	DOM,
-	PropTypes,
 	Children,
 	render,
 	createClass,
